@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Registration } from '../registration';
+import { ProfilesService } from '../profiles.service';
+import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 
 @Component({
   selector: 'app-login',
@@ -7,18 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  emailAddress: string = "example@safeway.com";
+  emailAddress: string ;
   password: string;
   showRegistrationForm = false;
 
-  constructor() { }
+  registration: Registration = new Registration()
+
+  constructor(private profileService: ProfilesService,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
 
   ngOnInit() {
   }
 
   onLogin() {
     console.log("Login handler invoked");
-    console.log("Email Address: " + this.emailAddress);
+    console.log("Email Address: " + this.emailAddress + ", Password: " + this.password);
+    this.profileService.getProfile(this.emailAddress, this.password)
+      .subscribe( (s) => {
+        console.log(s);
+        this.storage.set("profile", s);
+      });
   }
 
   onRegister() {
@@ -27,11 +38,19 @@ export class LoginComponent implements OnInit {
   }
 
   onReset() {
+    this.emailAddress = "";
+    this.password = "";
     console.log("Reset handler invoked");
   }
 
   onRegisterSuccess() {
-    this.showRegistrationForm = !this.showRegistrationForm;
+    var me = this;
+    this.registration.name = this.registration.firstName + " " + this.registration.lastName;
+    this.profileService.createProfile(this.registration)
+      .subscribe( (s) => {
+          me.showRegistrationForm = !me.showRegistrationForm;
+          me.registration = new Registration();
+      });
   }
 
   onRegisterCancel() {
