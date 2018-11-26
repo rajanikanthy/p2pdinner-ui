@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Registration } from '../registration';
 import { ProfilesService } from '../profiles.service';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+import { AppRoutingModule } from '../app-routing.module';
 
 @Component({
   selector: 'app-login',

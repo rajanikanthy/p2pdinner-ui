@@ -4,34 +4,34 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <router-outlet></router-outlet>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="showNavigation">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Menu</a>
+        <a class="nav-link" href="/menu">Menu</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Listings</a>
+        <a class="nav-link" href="/listings">Listings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">MyOrders</a>
+        <a class="nav-link" href="/orders">MyOrders</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Preferences</a>
+        <a class="nav-link" href="/preferences">Preferences</a>
       </li>
     </ul>
   </div>
 </nav>
 <div class="container">
   <div class="row">
-    <div class="col-sm-6">
-        <app-login></app-login>
+    <div class="col">
+        <router-outlet></router-outlet>
     </div>
   </div>
-  <br/>
+  <!-- 
+    <br/>
   <br/>
   <div class="row">
     <div class="col">
@@ -62,4 +62,5 @@
   <br/>
   <br/>
 </div>
+-->
 
