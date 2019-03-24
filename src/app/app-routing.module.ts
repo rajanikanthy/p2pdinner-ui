@@ -7,13 +7,15 @@ import { MenuComponent } from './menu/menu.component';
 import { ListingsComponent } from './listings/listings.component';
 import { MyordersComponent } from './myorders/myorders.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'listings', component: ListingsComponent},
   { path: 'orders', component: MyordersComponent},
-  { path: 'preferences', component: PreferencesComponent}
+  { path: 'preferences', component: PreferencesComponent},
+  { path: 'logout', component: LogoutComponent}
 ]
 
 @NgModule({

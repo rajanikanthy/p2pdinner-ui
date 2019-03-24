@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { stringify } from '@angular/compiler/src/util';
 import { Observable, Subject } from 'rxjs';
 import { Registration } from './registration';
 import { UserProfile } from './UserProfile';
+import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,37 @@ export class ProfilesService {
 
   baseUri: string = "http://localhost:8080/p2pdinner-profile-services/api/profiles"
 
-  constructor(private http: HttpClient) {
-    
+  logoutEvent = new Subject();
+  loginEvent = new Subject();
+
+  constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+  }
+
+  isValidSession() {
+    return this.storage.get("profile") !== null;
+  }
+
+  logOut() {
+    let me = this
+    return new Observable((observer) => {
+      me.storage.remove("profile")
+      this.logoutEvent.next(false)
+      observer.next(true)
+    })
+  }
+
+  login(emailAddress: string, password: string): Observable<UserProfile> {
+    return new Observable((observer) => {
+      this.getProfile(emailAddress, password)
+      .subscribe( (success) => {
+        this.storage.set("profile", success);
+        this.loginEvent.next(true);
+        observer.next(success)
+      }, (error) => {
+        console.log(error)
+        observer.error(error)
+      })
+    })
   }
 
   getProfile(emailAddress: string, password: string): Observable<UserProfile> {
@@ -22,7 +52,7 @@ export class ProfilesService {
         "emailAddress": emailAddress,
         "password": password
       }
-    });
+    })
   }
 
   createProfile(registration: Registration): Observable<string> {

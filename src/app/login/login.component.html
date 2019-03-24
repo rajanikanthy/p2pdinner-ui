@@ -1,4 +1,4 @@
-<div class="row" *ngIf="!showRegistrationForm">
+<div class="row" *ngIf="!showRegistrationForm" style="margin-top:50px;">
   <div class="col-sm-6">
       <form>
           <div class="form-group">
@@ -12,17 +12,22 @@
             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="password"
               name="password">
           </div>
-          <button type="button" class="btn btn-outline-primary btn-block mr-2" (click)="onLogin()">Login</button>
-          <button type="button" class="btn btn-outline-primary btn-block mr-2" (click)="onRegister()">Register</button>
-          <button type="button" class="btn btn-outline-primary btn-block mr-2" (click)="onReset()">Reset</button>
         </form>
+  </div>
+</div>
+<div class="row" *ngIf="!showRegistrationForm">
+  <div class="col-sm-3">
+    <button type="button" class="btn btn-outline-primary btn-block mr-2" (click)="onLogin()">Login</button>
+  </div>
+  <div class="col-sm-3">
+    <button type="button" class="btn btn-outline-primary btn-block mr-2" (click)="onRegister()">Register</button>
   </div>
 </div>
 <div class="row" *ngIf="showRegistrationForm">
   <div class="col-sm-6">
       <form>
           <div class="form-group">
-            <label for="emailAddress">emailAddress</label>
+            <label for="emailAddress">EmailAddress</label>
             <input type="email" class="form-control" placeholder="test@example.com" name="emailAddress" [(ngModel)]="registration.emailAddress">
           </div>
           <div class="form-group">

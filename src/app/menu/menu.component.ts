@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Menu } from '../menu';
+import { MenuService } from '../menu.service';
+import { DinnerCategory } from '../DinnerCategory';
+import { SpecialNeed } from '../SpecialNeed';
+import { DeliveryType } from '../DeliveryType';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +11,11 @@ import { Menu } from '../menu';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+
+  menu: Menu = new Menu()
+  categories : DinnerCategory[];
+  specialNeeds: SpecialNeed[];
+  deliveryTypes: DeliveryType[];
 
   menuItems = [{
     "id": 1,
@@ -55,9 +64,35 @@ export class MenuComponent implements OnInit {
         }
   ]
 
-  constructor() { }
+  constructor(private menuService: MenuService) { }
 
   ngOnInit() {
+    this.menuService.getMenuItems().subscribe((success) => {
+        this.menuItems = success;
+    }, (error) => {
+      console.log(error)
+    })
+
+    this.menuService.getCategories().subscribe((success) => {
+      this.categories = success;
+    }, (error) => {
+      console.log(error)
+    })
+
+    this.menuService.getDeliveryTypes().subscribe((success) => {
+      this.deliveryTypes = success;
+    }, (error) => {
+      console.log(error)
+    })
+
+    this.menuService.getSpeicalNeeds().subscribe((success) => {
+      this.specialNeeds = success;
+    }, (error) => {
+      console.log(error)
+    })
   }
 
+  onAddMenuItem() {
+    console.log("Adding menu item " + this.menu.title);
+  }
 }

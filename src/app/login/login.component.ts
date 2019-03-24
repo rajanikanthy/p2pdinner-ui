@@ -1,8 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Registration } from '../registration';
 import { ProfilesService } from '../profiles.service';
-import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
-import { AppRoutingModule } from '../app-routing.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +16,7 @@ export class LoginComponent implements OnInit {
 
   registration: Registration = new Registration()
 
-  constructor(private profileService: ProfilesService,
-    @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
+  constructor(private profileService: ProfilesService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -26,10 +24,10 @@ export class LoginComponent implements OnInit {
   onLogin() {
     console.log("Login handler invoked");
     console.log("Email Address: " + this.emailAddress + ", Password: " + this.password);
-    this.profileService.getProfile(this.emailAddress, this.password)
+    this.profileService.login(this.emailAddress, this.password)
       .subscribe( (s) => {
         console.log(s);
-        this.storage.set("profile", s);
+        this.router.navigateByUrl("/menu");
       });
   }
 
@@ -51,6 +49,7 @@ export class LoginComponent implements OnInit {
       .subscribe( (s) => {
           me.showRegistrationForm = !me.showRegistrationForm;
           me.registration = new Registration();
+          me.router.navigateByUrl("");
       });
   }
 

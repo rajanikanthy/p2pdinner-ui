@@ -13,6 +13,7 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { MenuItemComponent } from './menu/menu-item/menu-item.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MenuItemComponent } from './menu/menu-item/menu-item.component';
     MyordersComponent,
     PreferencesComponent,
     LoginComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

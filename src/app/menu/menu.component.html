@@ -1,5 +1,6 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-6 col-sm-6">
+            <h5 *ngIf="menuItems.length === 0">There no menu items.</h5>
         <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let menuItem of menuItems">
                 <div class="d-flex w-100 justify-content-between">
@@ -11,5 +12,79 @@
                 <br/>
                 <small>{{menuItem.city}} {{menuItem.zipCode}}</small>
               </a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6">
+            <form>
+                    <div class="form-group">
+                      <label for="title">Title</label>
+                      <input type="text" class="form-control" placeholder="Paneer Masala" name="title" [(ngModel)]="menu.title">
+                    </div>
+                    <div class="form-group">
+                      <label for="addressLine1">Address Line 1</label>
+                      <input type="text" class="form-control" placeholder="east suite, westway" name="addressLine1" [(ngModel)]="menu.addressLine1">
+                    </div>
+                    <div class="form-group">
+                      <label for="addressLine2">Address Line 2</label>
+                      <input type="text" class="form-control" placeholder="address line 2" name="addressLine2" [(ngModel)]="menu.addressLine2">
+                    </div>
+                    <div class="form-group">
+                      <label for="city">City</label>
+                      <input type="text" class="form-control" placeholder="San Francisco" name="city" [(ngModel)]="menu.city">
+                    </div>
+                    <div class="form-group">
+                      <label for="state">State</label>
+                      <select class="form-control" id="state" name="state" [(ngModel)]="menu.state">
+                        <option>CA</option>
+                        <option>TN</option>
+                        <option>TX</option>
+                        <option>VA</option>
+                        <option>MA</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zipCode">ZipCode</label>
+                        <input type="text" class="form-control" placeholder="zipCode" name="zip" [(ngModel)]="menu.zipCode">
+                      </div>
+                      <div class="form-group">
+                        <label for="availableQty">Available Quantity</label>
+                        <input type="text" class="form-control" placeholder="10" name="availableQty" [(ngModel)]="menu.availableQty">
+                      </div>
+                        <div class="form-group">
+                                <label for="costPerItem">Cost Per Item</label>
+                                <input type="text" class="form-control" placeholder="5.99" name="costPerItem" [(ngModel)]="menu.costPerItem">
+                            </div>
+                        <div class="form-group">
+                                <label for="startDate">Start Date (MM/DD/YY)</label>
+                                <input type="text" class="form-control" placeholder="12/01/18" name="startDate" [(ngModel)]="menu.startDate">
+                        </div>
+                        <div class="form-group">
+                                <label for="endDate">End Date (MM/DD/YY)</label>
+                                <input type="text" class="form-control" placeholder="12/01/18" name="endDate" [(ngModel)]="menu.endDate"> 
+                        </div>
+                        <div class="form-group">
+                                <label for="closeDate">Close Date (MM/DD/YY)</label>
+                                <input type="text" class="form-control" placeholder="12/01/18" name="closeDate" [(ngModel)]="menu.closeDate">
+                        </div>
+                      <div class="form-group">
+                          <label for="categories">Categories</label>
+                          <select class="form-control" id="categories" name="categories" multiple [(ngModel)]="menu.categories">
+                            <option *ngFor="let category of categories">{{category.name}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                                <label for="specialNeeds">Special Needs</label>
+                                <select class="form-control" id="specialNeeds" name="specialNeeds" [(ngModel)]="menu.specialNeeds" multiple >
+                                  <option *ngFor="let speicalNeed of specialNeeds">{{speicalNeed.name}}</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                    <label for="deliveries">Delivery Type</label>
+                                    <select class="form-control" id="deliveries" name="deliveries" multiple [(ngModel)]="menu.deliveries">
+                                      <option *ngFor="let deliveryType of deliveryTypes">{{deliveryType.name}}</option>
+                                    </select>
+                                  </div>
+                    <button type="button" class="btn btn-outline-primary btn-block mr-2" (click)="onAddMenuItem()">Add Item</button>
+                  </form>
         </div>
 </div>
