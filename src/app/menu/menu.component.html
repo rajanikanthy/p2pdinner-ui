@@ -11,6 +11,16 @@
                 <small>{{menuItem.addressLine1}}</small>
                 <br/>
                 <small>{{menuItem.city}} {{menuItem.zipCode}}</small>
+                <div class="d-flex w-100 justify-content-end">
+                    <span>
+                        <div (click)="onRemoveMenuItem(); $event.stopPropagation();">
+                          <i class="fa fa-trash" style="padding-right:0.3em;" aria-hidden="true"></i>
+                        </div>
+                        <div (click)="onEditMenuItem(); $event.stopPropagation();">
+                          <i class="fa fa-pencil-alt" aria-hidden="true" ></i>
+                        </div>
+                    </span>
+                </div>
               </a>
         </div>
     </div>
@@ -48,7 +58,7 @@
                       </div>
                       <div class="form-group">
                         <label for="availableQty">Available Quantity</label>
-                        <input type="text" class="form-control" placeholder="10" name="availableQty" [(ngModel)]="menu.availableQty">
+                        <input type="text" class="form-control" placeholder="10" name="availableQty" [(ngModel)]="menu.availableQuantity">
                       </div>
                         <div class="form-group">
                                 <label for="costPerItem">Cost Per Item</label>
@@ -56,15 +66,15 @@
                             </div>
                         <div class="form-group">
                                 <label for="startDate">Start Date (MM/DD/YY)</label>
-                                <input type="text" class="form-control" placeholder="12/01/18" name="startDate" [(ngModel)]="menu.startDate">
+                                <input type="text" class="form-control" placeholder="12/01/18" name="startDate" [(ngModel)]="menu.startDateStr">
                         </div>
                         <div class="form-group">
                                 <label for="endDate">End Date (MM/DD/YY)</label>
-                                <input type="text" class="form-control" placeholder="12/01/18" name="endDate" [(ngModel)]="menu.endDate"> 
+                                <input type="text" class="form-control" placeholder="12/01/18" name="endDate" [(ngModel)]="menu.endDateStr"> 
                         </div>
                         <div class="form-group">
                                 <label for="closeDate">Close Date (MM/DD/YY)</label>
-                                <input type="text" class="form-control" placeholder="12/01/18" name="closeDate" [(ngModel)]="menu.closeDate">
+                                <input type="text" class="form-control" placeholder="12/01/18" name="closeDate" [(ngModel)]="menu.closeDateStr">
                         </div>
                       <div class="form-group">
                           <label for="categories">Categories</label>

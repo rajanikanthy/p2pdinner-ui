@@ -4,6 +4,7 @@ import { MenuService } from '../menu.service';
 import { DinnerCategory } from '../DinnerCategory';
 import { SpecialNeed } from '../SpecialNeed';
 import { DeliveryType } from '../DeliveryType';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-menu',
@@ -92,7 +93,28 @@ export class MenuComponent implements OnInit {
     })
   }
 
+  onRemoveMenuItem() {
+    console.log("Remove menu item clicked");
+  }
+
+  onEditMenuItem(event: Event) {
+    console.log("Edit Menu Item clicked");
+  }
+
   onAddMenuItem() {
     console.log("Adding menu item " + this.menu.title);
+    let sm = moment(this.menu.startDateStr, "MM/DD/YY")
+    let em = moment(this.menu.endDateStr, "MM/DD/YY")
+    let cm = moment(this.menu.closeDateStr, "MM/DD/YY")
+
+    this.menu.startDate = sm.unix()
+    this.menu.endDate = em.unix()
+    this.menu.closeDate = em.unix()
+
+    this.menuService.createMenuItem(this.menu).subscribe( (success) => {
+      this.menuService.getMenuItems().subscribe( (s) => this.menuItems = s, (e) => console.log(e))
+    }, (error) => {
+      console.log(error)
+    })
   }
 }

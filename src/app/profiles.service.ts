@@ -55,6 +55,14 @@ export class ProfilesService {
     })
   }
 
+  getProfileById() : Observable<UserProfile> {
+    let userProfile : UserProfile = this.storage.get("profile");
+    return Observable.create(function(observer) {
+      observer.next(userProfile);
+      observer.complete();
+    })
+  }
+
   createProfile(registration: Registration): Observable<string> {
     return this.http.post<string>(this.baseUri, registration);
   }

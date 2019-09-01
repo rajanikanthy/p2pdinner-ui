@@ -1,3 +1,24 @@
-<p>
-  preferences works!
-</p>
+<form>
+    <div class="form-group">
+      <label for="emailAddress">Email address</label>
+      <input type="email" class="form-control" 
+        value="{{userProfile.emailAddress}}"
+        id="emailAddress" 
+        disabled
+        aria-describedby="emailHelp" 
+        placeholder="Enter email">
+    </div>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Name" value="{{userProfile.name}}">
+    </div>
+    <div class="form-group">
+        <label for="addressLine1">Address Line1</label>
+        <input type="text" class="form-control" id="addressLine1" placeholder="Address Line1" value="{{userProfile.addressLine1}}">
+      </div>
+      <div class="form-group">
+          <label for="addressLine2">Address Line2</label>
+          <input type="text" class="form-control" id="name" placeholder="addressLine2" value="{{userProfile.addressLine2}}">
+        </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>

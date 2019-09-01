@@ -17,4 +17,7 @@ export class Menu {
     categories: string;
     specialNeeds: string;
     deliveries: string;
+    startDateStr: string;
+    endDateStr: string;
+    closeDateStr: string;
 }

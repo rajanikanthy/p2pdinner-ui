@@ -26,6 +26,11 @@ export class MenuService {
     return this.http.get<Menu[]>(this.baseUri + "/" + profile.profileId + "/menuitem");
   }
 
+  createMenuItem(menu: Menu) {
+    let profile : UserProfile = this.storage.get("profile")
+    return this.http.post(this.baseUri + "/" + profile.profileId + "/menuitem", menu);
+  }
+
   getCategories() : Observable<DinnerCategory[]> {
     return this.http.get<DinnerCategory[]>(this.baseUri + "/categories");
   }
