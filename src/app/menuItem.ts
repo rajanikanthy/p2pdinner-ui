@@ -1,5 +1,10 @@
-export class Menu {
-    id: number;
+
+import { DinnerCategory } from './DinnerCategory';
+import { SpecialNeed } from './SpecialNeed';
+import { DeliveryType } from './DeliveryType';
+
+export class MenuItem {
+    id: String;
     title: string;
     description: string;
     isActive: boolean;
@@ -14,9 +19,9 @@ export class Menu {
     startDate: number;
     endDate: number;
     closeDate: number;
-    categories: string;
-    specialNeeds: string;
-    deliveries: string;
+    categories: DinnerCategory[];
+    specialNeeds: SpecialNeed[];
+    deliveries: DeliveryType[];
     startDateStr: string;
     endDateStr: string;
     closeDateStr: string;

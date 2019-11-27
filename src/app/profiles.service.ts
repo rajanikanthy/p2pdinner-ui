@@ -46,6 +46,12 @@ export class ProfilesService {
     })
   }
 
+  getProfileFromCache() : Observable<UserProfile> {
+    return new Observable((observer) => {
+      observer.next(this.storage.get("profile"))
+    })
+  }
+
   getProfile(emailAddress: string, password: string): Observable<UserProfile> {
     return this.http.get<UserProfile>(this.baseUri + "/validate", {
       params : {

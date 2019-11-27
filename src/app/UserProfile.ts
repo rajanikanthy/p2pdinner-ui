@@ -4,4 +4,7 @@ export class UserProfile {
     addressLine1: string;
     addressLine2: string;
     name: string;
+    city: string;
+    state: string;
+    zip: string;
 }

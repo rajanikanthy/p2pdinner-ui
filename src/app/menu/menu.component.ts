@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Menu } from '../menu';
+import { MenuItem } from '../menuItem';
 import { MenuService } from '../menu.service';
 import { DinnerCategory } from '../DinnerCategory';
 import { SpecialNeed } from '../SpecialNeed';
 import { DeliveryType } from '../DeliveryType';
 import * as moment from 'moment';
+import { ProfilesService } from '../profiles.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,63 +14,21 @@ import * as moment from 'moment';
 })
 export class MenuComponent implements OnInit {
 
-  menu: Menu = new Menu()
-  categories : DinnerCategory[];
-  specialNeeds: SpecialNeed[];
-  deliveryTypes: DeliveryType[];
+  menuItem: MenuItem = new MenuItem()
+  categories : DinnerCategory[]
+  specialNeeds: SpecialNeed[]
+  deliveryTypes: DeliveryType[]
+  showForm: boolean
 
-  menuItems = [{
-    "id": 1,
-    "title": "Garden Vegetable",
-    "description" : "Vegetarian salad",
-    "isActive": true,
-    "addressLine1": "5338 Piazza Ct",
-    "addressLine2": "",
-    "zipCode": "94588",
-    "state": "CA",
-    "city": "Pleasanton",
-    "availableQuantity": 5,
-    "costPerItem" : 5.99,
-    "categories": "Vegan",
-    "deliveries": "Pickup"
-    },
-    {
-      "id": 2,
-      "title": "Grilled Chicken on Barbie",
-      "description" : "Seasoned and wood-fire grilled chicken breast.",
-      "isActive": true,
-      "addressLine1": "5338 Piazza Ct",
-      "addressLine2": "",
-      "zipCode": "94588",
-      "state": "CA",
-      "city": "Pleasanton",
-      "availableQuantity": 5,
-      "costPerItem" : 5.99,
-      "categories": "Vegan",
-      "deliveries": "Pickup"
-      },
-      {
-        "id": 3,
-        "title": "Ribeye",
-        "description" : "Well-marbled, juicy and savory. Wood-fire grilled with the natural flavor of oak.",
-        "isActive": true,
-        "addressLine1": "5338 Piazza Ct",
-        "addressLine2": "",
-        "zipCode": "94588",
-        "state": "CA",
-        "city": "Pleasanton",
-        "availableQuantity": 5,
-        "costPerItem" : 5.99,
-        "categories": "Vegan",
-        "deliveries": "Pickup"
-        }
-  ]
+  menuItems = []
 
-  constructor(private menuService: MenuService) { }
+  constructor(private menuService: MenuService, private profileService: ProfilesService) { }
 
   ngOnInit() {
+    this.showForm = false;
     this.menuService.getMenuItems().subscribe((success) => {
-        this.menuItems = success;
+        console.log(success)
+        this.menuItems = success
     }, (error) => {
       console.log(error)
     })
@@ -91,28 +50,60 @@ export class MenuComponent implements OnInit {
     }, (error) => {
       console.log(error)
     })
+
+    this.profileService.getProfileFromCache().subscribe((profile) => {
+      this.menuItem.addressLine1 = profile.addressLine1
+      this.menuItem.addressLine2 = profile.addressLine2
+      this.menuItem.city = profile.city
+      this.menuItem.state = profile.state
+      this.menuItem.zipCode = profile.zip
+    })
   }
 
-  onRemoveMenuItem() {
-    console.log("Remove menu item clicked");
+  onRemoveMenuItem(id: String, event: Event) {
+    console.log("Remove menu item clicked")
+    console.log(`Item to be deleted ${id}`)
+    this.menuService.deleteMenuItem(id)
+      .subscribe(success => {
+          console.log("Delete successfully")  
+          this.menuService.getMenuItems().subscribe( items => this.menuItems = items) 
+      }, error => console.log(error))
+    event.stopPropagation()
   }
 
-  onEditMenuItem(event: Event) {
-    console.log("Edit Menu Item clicked");
+  onEditMenuItem(id: String, event: Event) {
+    console.log("Edit Menu Item clicked")
+    this.menuItem = this.menuItems.find( (mi) => mi.id === id)
+    this.showForm = true
+    event.stopPropagation()
+  }
+
+  showAddMenuItemForm() {
+    console.log("Clicked on show add menu item form")
+    this.showForm = true
+  }
+
+  onCancel() {
+    console.log("Click on cancel form")
+    this.showForm = false
   }
 
   onAddMenuItem() {
-    console.log("Adding menu item " + this.menu.title);
-    let sm = moment(this.menu.startDateStr, "MM/DD/YY")
-    let em = moment(this.menu.endDateStr, "MM/DD/YY")
-    let cm = moment(this.menu.closeDateStr, "MM/DD/YY")
+    console.log("Adding menu item " + this.menuItem.title);
+    let sm = moment(this.menuItem.startDateStr, "MM/DD/YY")
+    let em = moment(this.menuItem.endDateStr, "MM/DD/YY")
+    let cm = moment(this.menuItem.closeDateStr, "MM/DD/YY")
 
-    this.menu.startDate = sm.unix()
-    this.menu.endDate = em.unix()
-    this.menu.closeDate = em.unix()
+    this.menuItem.startDate = sm.unix()
+    this.menuItem.endDate = em.unix()
+    this.menuItem.closeDate = em.unix()
 
-    this.menuService.createMenuItem(this.menu).subscribe( (success) => {
-      this.menuService.getMenuItems().subscribe( (s) => this.menuItems = s, (e) => console.log(e))
+    this.menuService.createMenuItem(this.menuItem).subscribe( (success) => {
+      this.menuService.getMenuItems().subscribe( (s) => {
+        this.menuItems = s
+        this.showForm = false
+      }, (e) => console.log(e))
+
     }, (error) => {
       console.log(error)
     })

@@ -2,11 +2,12 @@ import { Injectable, Inject } from '@angular/core';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, from, Subject, Observable } from 'rxjs';
-import { Menu } from './menu';
+import { MenuItem } from './menuItem';
 import { UserProfile } from './UserProfile';
 import { DinnerCategory} from './DinnerCategory';
 import { DeliveryType } from './DeliveryType';
 import { SpecialNeed } from './SpecialNeed';
+import { Profile } from 'selenium-webdriver/firefox';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +16,18 @@ export class MenuService {
 
   baseUri: string = "http://localhost:8080/p2pdinner-menu-services/api"
 
-  createMenuItemEvent : Subject<Menu> = new Subject()
-  deleteMenuItemEvent : Subject<Menu> = new Subject()
+  createMenuItemEvent : Subject<MenuItem> = new Subject()
+  deleteMenuItemEvent : Subject<MenuItem> = new Subject()
 
   constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
   }
 
-  getMenuItems() : Observable<Menu[]> {
+  getMenuItems() : Observable<MenuItem[]> {
     let profile: UserProfile = this.storage.get("profile");
-    return this.http.get<Menu[]>(this.baseUri + "/" + profile.profileId + "/menuitem");
+    return this.http.get<MenuItem[]>(this.baseUri + "/" + profile.profileId + "/menuitem");
   }
 
-  createMenuItem(menu: Menu) {
+  createMenuItem(menu: MenuItem) {
     let profile : UserProfile = this.storage.get("profile")
     return this.http.post(this.baseUri + "/" + profile.profileId + "/menuitem", menu);
   }
@@ -41,6 +42,11 @@ export class MenuService {
 
   getSpeicalNeeds() : Observable<SpecialNeed[]> {
     return this.http.get<SpecialNeed[]>(this.baseUri + "/specialNeeds");
+  }
+
+  deleteMenuItem(id: String) {
+    let profile : UserProfile = this.storage.get("profile")
+    return this.http.delete(this.baseUri + "/" + profile.profileId + "/menuitem/" + id);
   }
 
 }
